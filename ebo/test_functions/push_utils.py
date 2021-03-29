@@ -1,10 +1,10 @@
 import numpy as np
 import pygame
-from Box2D import *
+from Box2D import b2Vec2, b2_staticBody, b2PolygonShape, b2CircleShape, b2_dynamicBody, b2World
 from Box2D.b2 import *
 
 
-class guiWorld:
+class GuiWorld:
     def __init__(self, fps):
         self.SCREEN_WIDTH, self.SCREEN_HEIGHT = 1000, 1000
         self.TARGET_FPS = fps
@@ -61,14 +61,14 @@ class b2WorldInterface:
         self.bodies = []
 
         if do_gui:
-            self.gui_world = guiWorld(self.TARGET_FPS)
+            self.gui_world = GuiWorld(self.TARGET_FPS)
             # raw_input()
         else:
             self.gui_world = None
 
     def initialize_gui(self):
         if self.gui_world == None:
-            self.gui_world = guiWorld(self.TARGET_FPS)
+            self.gui_world = GuiWorld(self.TARGET_FPS)
         self.do_gui = True
 
     def stop_gui(self):
@@ -139,11 +139,6 @@ class end_effector:
     def get_state(self, verbose=False):
         state = list(self.hand.position) + [self.hand.angle] + \
                 list(self.hand.linearVelocity) + [self.hand.angularVelocity]
-        if verbose:
-            print_state = ["%.3f" % x for x in state]
-            print
-            "position, velocity: (%s), (%s) " % \
-            ((", ").join(print_state[:3]), (", ").join(print_state[3:]))
 
         return state
 
@@ -213,7 +208,7 @@ def add_obstacles(b2world_interface, obsverts):
     b2world_interface.add_bodies(obs)
 
 
-def run_simulation(world, body, body2, robot, robot2, xvel, yvel, \
+def run_simulation(world, body, body2, robot, robot2, xvel, yvel,
                    xvel2, yvel2, rtor, rtor2, simulation_steps,
                    simulation_steps2):
     # simulating push with fixed direction pointing from robot location to body location
@@ -231,4 +226,4 @@ def run_simulation(world, body, body2, robot, robot2, xvel, yvel, \
             robot2.apply_wrench(rvel2, rtor2)
         world.step()
 
-    return (list(body.position), list(body2.position))
+    return list(body.position), list(body2.position)

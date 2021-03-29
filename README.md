@@ -2,6 +2,9 @@
 This is the code repository associated with the paper [_Batched Large-scale Bayesian Optimization in High-dimensional Spaces_](https://arxiv.org/pdf/1706.01445.pdf). We propose a new batch/distributed Bayesian optimization technique called **Ensemble Bayesian Optimization**, which unprecedentedly scales up Bayesian optimization both in terms of input dimensions and observation size. Please refer to the paper if you need more details on the algorithm.
 
 ## Requirements 
+```
+sudo apt-get install libsuitesparse-dev
+```
 We tested our code with Python 2.7 on Ubuntu 14.04 LTS (64-bit).
 
 See configs/start_commands for required packages.
