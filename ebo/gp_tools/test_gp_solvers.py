@@ -1,8 +1,8 @@
 from __future__ import print_function
 import numpy as np
 import sklearn.random_projection as rp
-from gp_tools.gp import SparseFeatureGP, DenseFeatureGP, DenseKernelGP, SparseKernelGP
-from gp_tools.representation import TileCoding, IndexToBinarySparse, IndexToDense, DenseKernel, SparseKernel, SparseRPTilecoding
+from ebo.gp_tools import SparseFeatureGP, DenseFeatureGP, DenseKernelGP, SparseKernelGP
+from ebo.gp_tools import TileCoding, IndexToBinarySparse, IndexToDense, DenseKernel, SparseKernel, SparseRPTilecoding
 from builtins import range
 
 class RandomSinFn:

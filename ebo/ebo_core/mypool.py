@@ -1,10 +1,10 @@
-from ebo_core.bo import bo
+from ebo.ebo_core import bo
 
 
 class MyPool(object):
     def __init__(self, a, b, useAzure, thresAzure):
         if useAzure:
-            from azure_tools.azurepool import AzurePool
+            from ebo.azure_tools.azurepool import AzurePool
             self.pool = AzurePool(a, b)
         self.useAzure = useAzure
         self.thresAzure = thresAzure

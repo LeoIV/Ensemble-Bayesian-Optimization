@@ -12,7 +12,6 @@ import azure.batch.batch_service_client as batch
 import azure.batch.batch_auth as batchauth
 import azure.batch.models as batchmodels
 
-import common.helpers
 import time
 
 try:
@@ -21,7 +20,7 @@ except:
     import pickle
 import sys
 
-sys.path.append('.')
+sys.path.append('')
 
 import logging
 
@@ -34,9 +33,9 @@ class AzurePool(object):
         if data_dir[-1] != '/':
             data_dir += '/'
         self.data_dir = data_dir
-        self.app = common.helpers.generate_unique_resource_name('app')
-        self.inp = common.helpers.generate_unique_resource_name('inp')
-        self.out = common.helpers.generate_unique_resource_name('out')
+        self.app = ebo.azure_tools.common.helpers.generate_unique_resource_name('app')
+        self.inp = ebo.azure_tools.common.helpers.generate_unique_resource_name('inp')
+        self.out = ebo.azure_tools.common.helpers.generate_unique_resource_name('out')
         global_config = configparser.ConfigParser()
         global_config.read('configs/configuration.cfg')
 
@@ -64,8 +63,8 @@ class AzurePool(object):
         # app_file_names = our_config.get('APP', 'app').split(',')
         # app_file_names = [os.path.realpath(fn) for fn in app_file_names]
         # Print the settings we are running with
-        common.helpers.print_configuration(global_config)
-        common.helpers.print_configuration(our_config)
+        ebo.azure_tools.common.helpers.print_configuration(global_config)
+        ebo.azure_tools.common.helpers.print_configuration(our_config)
 
         credentials = batchauth.SharedKeyCredentials(
             batch_account_name,
@@ -111,10 +110,10 @@ class AzurePool(object):
         pool_id = self.pool_id
         batch_client = self.batch_client
         block_blob_client = self.block_blob_client
-        job_id = common.helpers.generate_unique_resource_name(
+        job_id = ebo.azure_tools.common.helpers.generate_unique_resource_name(
             'install')
         run_commands(batch_client, block_blob_client, job_id, pool_id)
-        common.helpers.wait_for_tasks_to_complete(
+        ebo.azure_tools.common.helpers.wait_for_tasks_to_complete(
             batch_client,
             job_id,
             datetime.timedelta(minutes=25))
@@ -122,7 +121,7 @@ class AzurePool(object):
         tasks = batch_client.task.list(job_id)
         task_ids = [task.id for task in tasks]
 
-        common.helpers.print_task_output(batch_client, job_id, task_ids)
+        ebo.azure_tools.common.helpers.print_task_output(batch_client, job_id, task_ids)
 
     def end(self):
         self.delete_containers()
@@ -165,9 +164,9 @@ class AzurePool(object):
         logging.info('In AzurePool map, job id [' + job_id + ']')
         batch_client = self.batch_client
         block_blob_client = self.block_blob_client
-        job_id = common.helpers.generate_unique_resource_name(
+        job_id = ebo.azure_tools.common.helpers.generate_unique_resource_name(
             job_id)
-        common.helpers.delete_blobs_from_container(block_blob_client, self.out)
+        ebo.azure_tools.common.helpers.delete_blobs_from_container(block_blob_client, self.out)
         input_file_names = [os.path.join(self.data_dir, str(i) + '.pk') for i in xrange(len(parameters))]
         for i, p in enumerate(parameters):
             pickle.dump(p, open(input_file_names[i], 'wb'))
@@ -184,13 +183,13 @@ class AzurePool(object):
         submit_job_and_add_tasks(batch_client, block_blob_client, job_id, self.pool_id, in_files, self.out, app_files,
                                  self.storage_account_name, self.out_sas_token)
 
-        common.helpers.wait_for_tasks_to_complete(
+        ebo.azure_tools.common.helpers.wait_for_tasks_to_complete(
             batch_client,
             job_id,
             datetime.timedelta(minutes=20))
 
         # GET outputs
-        common.helpers.download_blobs_from_container(block_blob_client, self.out, './')
+        ebo.azure_tools.common.helpers.download_blobs_from_container(block_blob_client, self.out, '/')
 
         # print(os.path.join(self.data_dir, str(0) + '_out.pk'))
         ret = []
@@ -204,7 +203,7 @@ class AzurePool(object):
             try:
                 tasks = batch_client.task.list(job_id)
                 task_ids = [task.id for task in tasks]
-                common.helpers.print_task_output(batch_client, job_id, task_ids)
+                ebo.azure_tools.common.helpers.print_task_output(batch_client, job_id, task_ids)
                 assert 0 == 1, 'No return from azure'
             except Exception as e:
                 print('No return from azure and pring task output failed.')
@@ -221,7 +220,7 @@ def upload_files(block_blob_client, container_name, files):
 
 
 def get_resource_file(block_blob_client, container_name, blob_name, file_path):
-    sas_url = common.helpers.upload_blob_and_create_sas(
+    sas_url = ebo.azure_tools.common.helpers.upload_blob_and_create_sas(
         block_blob_client,
         container_name,
         blob_name,
@@ -258,7 +257,7 @@ def create_pool(batch_client, pool_id, vm_size, vm_count, app_files):
     """
     # pick the latest supported 16.04 sku for UbuntuServer
     sku_to_use, image_ref_to_use = \
-        common.helpers.select_latest_verified_vm_image_with_node_agent_sku(
+        ebo.azure_tools.common.helpers.select_latest_verified_vm_image_with_node_agent_sku(
             batch_client, 'Canonical', 'UbuntuServer', '14.04')
     user = batchmodels.AutoUserSpecification(
         scope=batchmodels.AutoUserScope.pool,
@@ -273,12 +272,12 @@ def create_pool(batch_client, pool_id, vm_size, vm_count, app_files):
         vm_size=vm_size,
         target_dedicated=vm_count,
         start_task=batchmodels.StartTask(
-            command_line=common.helpers.wrap_commands_in_shell('linux', task_commands),
+            command_line=ebo.azure_tools.common.helpers.wrap_commands_in_shell('linux', task_commands),
             user_identity=batchmodels.UserIdentity(auto_user=user),
             resource_files=app_files,
             wait_for_success=True))
 
-    common.helpers.create_pool_if_not_exist(batch_client, pool)
+    ebo.azure_tools.common.helpers.create_pool_if_not_exist(batch_client, pool)
 
 
 def run_commands(batch_client, block_blob_client, job_id, pool_id):
@@ -310,7 +309,7 @@ def run_commands(batch_client, block_blob_client, job_id, pool_id):
     nodes = list(batch_client.compute_node.list(pool_id))
     tasks = [batchmodels.TaskAddParameter(
         id="EBOTask-{}".format(i),
-        command_line=common.helpers.wrap_commands_in_shell('linux', task_commands),
+        command_line=ebo.azure_tools.common.helpers.wrap_commands_in_shell('linux', task_commands),
         user_identity=batchmodels.UserIdentity(auto_user=user)) \
         for i in xrange(len(nodes))]
 

@@ -236,7 +236,7 @@ def main():
 
     raw_x_range = np.repeat(domain.s_range, n_points, axis=1)
 
-    from ebo_core.helper import ConstantOffsetFn, NormalizedInputFn
+    from ebo.ebo_core.helper import ConstantOffsetFn, NormalizedInputFn
 
     # maximum value of f
     f_max = 5.0

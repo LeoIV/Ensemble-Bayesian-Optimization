@@ -1,8 +1,8 @@
-import ebo_core.helper as helper
+import ebo.ebo_core.helper as helper
 import numpy as np
 import sklearn.random_projection as rp
-from gp_tools.gp import SparseFeatureGP, DenseFeatureGP, DenseKernelGP, SparseKernelGP
-from gp_tools.representation import TileCoding, IndexToBinarySparse, DenseKernel, DenseL1Kernel, SparseKernel, SparseRPTilecoding
+from ebo.gp_tools import SparseFeatureGP, DenseFeatureGP, DenseKernelGP, SparseKernelGP
+from ebo.gp_tools import TileCoding, IndexToBinarySparse, DenseKernel, DenseL1Kernel, SparseKernel, SparseRPTilecoding
 from scipy.special import comb
 from builtins import range
 

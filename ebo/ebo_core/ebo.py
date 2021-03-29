@@ -1,17 +1,17 @@
 import os
 import time
 
-import ebo_core.helper as helper
+import ebo.ebo_core.helper as helper
 import numpy as np
-from ebo_core.mondrian import MondrianTree
-from ebo_core.mypool import MyPool
+from ebo.ebo_core import MondrianTree
+from ebo.ebo_core import MyPool
 from builtins import range
 
 try:
     import cPickle as pickle
 except:
     import pickle
-from gp_tools.representation import DenseL1Kernel
+from ebo.gp_tools import DenseL1Kernel
 import scipy.linalg
 
 '''

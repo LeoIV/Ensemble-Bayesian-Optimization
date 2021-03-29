@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.matlib as nm
-from ebo_core.ebo import ebo
-from test_functions.simple_functions import plot_f, SampledGpFunc, sample_z
+from ebo.ebo_core.ebo import ebo
+from ebo.test_functions.simple_functions import plot_f, SampledGpFunc, sample_z
 import time
 import logging
 logging.basicConfig(filename='example.log',level=logging.DEBUG)

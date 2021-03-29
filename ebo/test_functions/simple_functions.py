@@ -2,9 +2,9 @@ import os
 
 import numpy as np
 
-from ebo_core.bo import global_minimize
-from gp_tools.gp import DenseKernelGP
-from gp_tools.representation import DenseL1Kernel
+from ebo.ebo_core import global_minimize
+from ebo.gp_tools import DenseKernelGP
+from ebo.gp_tools import DenseL1Kernel
 
 
 class SimpleQuadratic(object):

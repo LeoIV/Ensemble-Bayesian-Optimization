@@ -8,7 +8,7 @@ try:
 except:
    import pickle
 
-from ebo_core.bo import bo
+from ebo.ebo_core import bo
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
@@ -42,7 +42,7 @@ if __name__ == '__main__':
   pickle.dump(res, open(output_file, 'wb'))
   
   print("bo_wrapper.py listing files:")
-  for item in os.listdir('.'):
+  for item in os.listdir(''):
     print(item)
 
   # Create the blob client using the container's SAS token.
