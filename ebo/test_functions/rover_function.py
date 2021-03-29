@@ -1,6 +1,7 @@
+import numpy as np
+
 from rover_utils import RoverDomain, PointBSpline, ConstObstacleCost, NegGeom, AABoxes, UnionGeom, AdditiveCosts, \
     ConstCost
-import numpy as np
 
 
 def create_cost_small():

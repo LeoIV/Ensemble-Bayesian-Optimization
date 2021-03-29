@@ -1,6 +1,7 @@
 import numpy as np
-from ebo.ebo_core import GibbsSampler
 from scipy.optimize import minimize
+
+from ebo.ebo_core.gibbs import GibbsSampler
 
 
 class bo(object):

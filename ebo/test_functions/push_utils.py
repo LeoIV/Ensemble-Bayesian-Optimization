@@ -1,7 +1,7 @@
 import numpy as np
 import pygame
 from Box2D import b2Vec2, b2_staticBody, b2PolygonShape, b2CircleShape, b2_dynamicBody, b2World
-from Box2D.b2 import *
+from Box2D.b2 import *  # noqa
 
 
 class GuiWorld:
@@ -51,8 +51,8 @@ class GuiWorld:
 
 
 # this is the interface to pybox2d
-class b2WorldInterface:
-    def __init__(self, do_gui=True):
+class B2WorldInterface:
+    def __init__(self, do_gui=False):
         self.world = b2World(gravity=(0.0, 0.0), doSleep=True)
         self.do_gui = do_gui
         self.TARGET_FPS = 100

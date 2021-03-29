@@ -1,6 +1,6 @@
 import numpy as np
 
-from ebo.test_functions.push_utils import b2WorldInterface, make_base, create_body, end_effector, run_simulation
+from ebo.test_functions.push_utils import B2WorldInterface, make_base, create_body, end_effector, run_simulation
 
 
 class PushReward:
@@ -46,7 +46,7 @@ class PushReward:
 
         initial_dist = self.f_max
 
-        world = b2WorldInterface(True)
+        world = B2WorldInterface(True)
         oshape, osize, ofriction, odensity, bfriction, hand_shape, hand_size = 'circle', 1, 0.01, 0.05, 0.01, 'rectangle', (
             1, 0.3)
 
