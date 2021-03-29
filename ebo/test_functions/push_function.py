@@ -1,6 +1,6 @@
 import numpy as np
 
-from push_utils import b2WorldInterface, make_base, create_body, end_effector, run_simulation
+from ebo.test_functions.push_utils import b2WorldInterface, make_base, create_body, end_effector, run_simulation
 
 
 class PushReward:
