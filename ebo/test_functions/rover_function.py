@@ -1,7 +1,7 @@
 import numpy as np
 
-from rover_utils import RoverDomain, PointBSpline, ConstObstacleCost, NegGeom, AABoxes, UnionGeom, AdditiveCosts, \
-    ConstCost
+from ebo.test_functions.rover_utils import AABoxes, NegGeom, UnionGeom, ConstObstacleCost, ConstCost, AdditiveCosts, \
+    PointBSpline, RoverDomain
 
 
 def create_cost_small():
