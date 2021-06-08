@@ -46,7 +46,7 @@ class PushReward:
 
         initial_dist = self.f_max
 
-        world = B2WorldInterface(True)
+        world = B2WorldInterface(False)
         oshape, osize, ofriction, odensity, bfriction, hand_shape, hand_size = 'circle', 1, 0.01, 0.05, 0.01, 'rectangle', (
             1, 0.3)
 
