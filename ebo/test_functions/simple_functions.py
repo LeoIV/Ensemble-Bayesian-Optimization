@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 
-from ebo.ebo_core import global_minimize
+from ebo.ebo_core.bo import global_minimize
 from ebo.gp_tools import DenseKernelGP
 from ebo.gp_tools import DenseL1Kernel
 
